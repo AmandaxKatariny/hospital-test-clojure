@@ -8,6 +8,14 @@ Nessa aula, aprendemos:
 
 - Definir um teste através do deftest
 - Utilizar `:refer :all` para ter acesso a todo o conteúdo de um arquivo
-- Criar **boundary tests** em conjunto com **checklists**
-- Refatorar o código utilizando a macro de threading `some->`
+- Criar **boundary tests** em conjunto com checklists
+- Refatorar o código utilizando a macro de threading some->
 
+
+## Aula 02
+
+Nessa aula, aprendemos:
+
+- Evitar o uso de valores sequenciais nos testes
+- Verificar se uma exception foi lançada
+- Implementar o teste de uma maneira otimizada
