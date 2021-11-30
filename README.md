@@ -19,3 +19,11 @@ Nessa aula, aprendemos:
 - Evitar o uso de valores sequenciais nos testes
 - Verificar se uma exception foi lançada
 - Implementar o teste de uma maneira otimizada
+
+## Aula 03
+
+Nessa aula, aprendemos:
+
+- Explorar os dados da exception info com ex-data e
+- Utilizar os dados da exception para entender o tipo de erro que ocorreu
+- Definir as possíveis saídas, os tipos e quando eu quero testar essas saídas
