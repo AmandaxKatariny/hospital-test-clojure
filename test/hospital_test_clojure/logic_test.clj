@@ -105,19 +105,37 @@
     (let [hospital-original {:espera (conj h.model/fila-vazia "5"), :raio-x h.model/fila-vazia}]
       (is (= {:espera []
               :raio-x ["5"]}
-             (transfere hospital-original :espera :raio-x)))
-      )
+             (transfere hospital-original :espera :raio-x))))
 
     (let [hospital-original {:espera (conj h.model/fila-vazia "51" "5"), :raio-x (conj h.model/fila-vazia "13")}]
       (is (= {:espera ["5"]
               :raio-x ["13" "51"]}
-             (transfere hospital-original :espera :raio-x)))
-      )
+             (transfere hospital-original :espera :raio-x)))))
 
-    )
   (testing "recusa pessoas se não cabe"
-    (let [hospital-cheio {:espera (conj h.model/fila-vazia "5"), :raio-x (conj h.model/fila-vazia "1" "21" "36" "87" "51")}]
+    (let [hospital-cheio {:espera (conj h.model/fila-vazia "5"), :raio-x (conj h.model/fila-vazia "1" "54" "43" "12" "51")}]
       (is (thrown? clojure.lang.ExceptionInfo
-                   (transfere hospital-cheio :espera :raio-x)))
+                   (transfere hospital-cheio :espera :raio-x)))))
+
+  ; será que faz sentido eu garantir que o schema está do outro lado?
+  ; lembrando que este teste não garante exatamente isso, garante só o erro do nil
+  ; ... é obvio que ninguem vai apagar um teste automatizado do nada, vai sentir o peso de apagar.
+  ; mas não é obvio que ninguem vai apagar uma restricao de um schema. pq naquele instante pode fazer sentido
+  ; na cabeça da pessoa que não entende ainda o dominio as restricoes do schema
+  ; por isso eu, guilherme, tenho uma tendencia de criar testes do genero (validar que algo nao foi removido)
+  ; em situacoes CRITICAS
+  (testing "Não pode invocar transferência sem hospital"
+    (is (thrown? clojure.lang.ExceptionInfo
+                 (transfere nil :espera :raio-x))))
+
+  (testing "condições obrigatórias"
+    (let [hospital {:espera (conj h.model/fila-vazia "5"), :raio-x (conj h.model/fila-vazia "1" "54" "43" "12")}]
+      (is (thrown? AssertionError
+                   (transfere hospital :nao-existe :raio-x)))
+      (is (thrown? AssertionError
+                   (transfere hospital :raio-x :nao-existe)))
       )
-    ))
+    )
+  )
+
+

@@ -20,4 +20,4 @@
 ;(s/validate PacienteID "Guilherme")
 ;(s/validate PacienteID 15)
 ;(s/validate Departamento (conj fila-vazia "Guilherme" "Daniela"))
-;(s/validate Hospital {:espera (conj fila-vazia "Guilherme" "Daniela")})
+;(s/validate Hospital {:espera (conj fila-vazia "Guilherme" "Daniela")})lidate Hospital {:espera (conj fila-vazia "Guilherme" "Daniela")})
