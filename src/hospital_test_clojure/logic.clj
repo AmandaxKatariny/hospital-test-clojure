@@ -1,4 +1,6 @@
-(ns hospital-test-clojure.logic)
+(ns hospital-test-clojure.logic
+  (:require [hospital-test-clojure.model :as h.model]
+            [schema.core :as s]))
 
 ; Test Driven Development
 ; Test Driven Design
@@ -59,16 +61,16 @@
 ;    (throw (ex-info "Não cabe ninguém neste departamento" {:paciente pessoa, :tipo :impossivel-colocar-pessoa-na-fila}))))
 
 
-(defn- tenta-colocar-na-fila
-  [hospital departamento pessoa]
-  (if (cabe-na-fila? hospital departamento)
-    (update hospital departamento conj pessoa)))
-
-(defn chega-em
-  [hospital departamento pessoa]
-  (if-let [novo-hospital (tenta-colocar-na-fila hospital departamento pessoa)]
-    {:hospital novo-hospital, :resultado :sucesso}
-    {:hospital hospital, :resultado :impossivel-colocar-pessoa-na-fila}))
+;(defn- tenta-colocar-na-fila
+;  [hospital departamento pessoa]
+;  (if (cabe-na-fila? hospital departamento)
+;    (update hospital departamento conj pessoa)))
+;
+;(defn chega-em
+;  [hospital departamento pessoa]
+;  (if-let [novo-hospital (tenta-colocar-na-fila hospital departamento pessoa)]
+;    { :hospital novo-hospital, :resultado :sucesso}
+;    { :hospital hospital, :resultado :impossivel-colocar-pessoa-na-fila}))
 
 ; antes de fazer swap chega-em vai ter que tratar o resultado
 ; não dá pra fugir disso (preocupacoes), se o resultado é para ser usado com atomos ou similares
@@ -76,3 +78,29 @@
 ;(defn chega-em!
 ;  [hospital departamento pessoa]
 ;  (chega-em hospital departamento pessoa))
+
+
+(defn chega-em
+  [hospital departamento pessoa]
+  (if (cabe-na-fila? hospital departamento)
+    (update hospital departamento conj pessoa)
+    (throw (ex-info "Não cabe ninguém neste departamento" {:paciente pessoa}))))
+
+(s/defn atende :- h.model/Hospital
+  [hospital :- h.model/Hospital, departamento :- s/Keyword]
+  (update hospital departamento pop))
+
+(s/defn proxima :- h.model/PacienteID
+  "Retorna o próximo paciente da fila"
+  [hospital :- h.model/Hospital, departamento :- s/Keyword]
+  (-> hospital
+      departamento
+      peek))
+
+(s/defn transfere :- h.model/Hospital
+  "Transfere o próximo paciente da fila de para a fila para"
+  [hospital :-  h.model/Hospital, de :- s/Keyword, para :- s/Keyword]
+  (let [pessoa (proxima hospital de)]
+    (-> hospital
+        (atende de)
+        (chega-em para pessoa))))

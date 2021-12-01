@@ -27,3 +27,20 @@ Nessa aula, aprendemos:
 - Explorar os dados da exception info com ex-data e
 - Utilizar os dados da exception para entender o tipo de erro que ocorreu
 - Definir as possíveis saídas, os tipos e quando eu quero testar essas saídas
+
+## Aula 04
+
+Nessa aula, aprendemos:
+
+- Utilizar filas ao invés de vetores nos testes
+- Trazer schemas para dentro dos testes
+- Fazer validações de forma declarativa
+
+
+## Aula 05
+
+Nessa aula, aprendemos:
+
+- Indicar qual tipo de dado está sendo utilizado através do uso da biblioteca Prismatic
+- Juntar `schemas` e testes
+- Lidar com exceptions
